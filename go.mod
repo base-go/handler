@@ -1,3 +1,5 @@
-module github.com/graphql-go/handler
+module github.com/base-go/handler
 
-go 1.14
+go 1.22
+
+require go mod graph | grep  v0.8.1

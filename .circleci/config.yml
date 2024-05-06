@@ -1,10 +1,10 @@
 defaults: &defaults
-  working_directory: /go/src/github.com/graphql-go/handler
+  working_directory: /go/src/github.com/base-go/handler
   steps:
     - checkout
     - run: go get -v -t -d ./...
     - run: go test ./...
- 
+
 version: 2
 jobs:
   golang:1.8.7:
@@ -20,7 +20,7 @@ jobs:
     docker:
       - image: circleci/golang:latest
   coveralls:
-    working_directory: /go/src/github.com/graphql-go/handler
+    working_directory: /go/src/github.com/base-go/handler
     docker:
       - image: circleci/golang:latest
     steps:
