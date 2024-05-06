@@ -144,20 +144,43 @@ add "&raw" to the end of the URL within a browser.
   <body>
     <div id="graphiql">Loading...</div>
     <script>
-      const root = ReactDOM.createRoot(document.getElementById('graphiql'));
-      const fetcher = GraphiQL.createFetcher({
-        url: 'https://swapi-graphql.netlify.app/.netlify/functions/index',
-        headers: { 'X-Example-Header': 'foo' },
+    const root = ReactDOM.createRoot(document.getElementById('graphiql'));
+    
+    // Function to parse query string parameters
+    function getQueryStringParams() {
+      const params = {};
+      window.location.search.substr(1).split('&').forEach(function(entry) {
+        const eq = entry.indexOf('=');
+        if (eq >= 0) {
+          params[decodeURIComponent(entry.slice(0, eq))] = decodeURIComponent(entry.slice(eq + 1));
+        }
       });
-      const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
-      root.render(
-        React.createElement(GraphiQL, {
-          fetcher,
-          defaultEditorToolsVisibility: true,
-          plugins: [explorerPlugin],
-        }),
-      );
-    </script>
+      return params;
+    }
+  
+    // Get the query string parameters
+    const queryParams = getQueryStringParams();
+    
+    // Construct the fetch URL without any GraphQL-specific parameters
+    const baseUrl = window.location.origin + window.location.pathname;
+    const fetcher = GraphiQL.createFetcher({
+      url: baseUrl,
+      headers: { 'X-Example-Header': 'foo' }, // Keep or modify headers as needed
+    });
+  
+    const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
+    root.render(
+      React.createElement(GraphiQL, {
+        fetcher,
+        defaultEditorToolsVisibility: true,
+        plugins: [explorerPlugin],
+        query: queryParams['query'], // Preload the query from the URL
+        variables: queryParams['variables'], // Preload the variables from the URL if any
+        operationName: queryParams['operationName'], // Preload the operation name from the URL if any
+      }),
+    );
+  </script>
+  
   </body>
 </html>
 {{ end }}
