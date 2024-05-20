@@ -123,7 +123,7 @@ add "&raw" to the end of the URL within a browser.
       favored resource bundler.
      -->
     <script
-      src="https://unpkg.com/graphiql/graphiql.min.js"
+      src="https://unpkg.com/graphiql@3.2.2/graphiql.min.js"
       type="application/javascript"
     ></script>
     <link rel="stylesheet" href="https://unpkg.com/graphiql/graphiql.min.css" />
